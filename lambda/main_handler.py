@@ -111,9 +111,9 @@ def origin_specified(origin):
     for i in data['data']
         if i['attributes']['direction_id'] == 0 and not direction_0:
             direction_0 = i
-        else if i['attributes']['direction_id'] == 1 and not direction_1:
+        elif i['attributes']['direction_id'] == 1 and not direction_1:
             direction_1 = i
-        else if direction_0 and direction_1:
+        elif direction_0 and direction_1:
             break
     next_0 = (datetime.fromtimestamp(direction_0['attributes']['arrival_time']) - datetime.now()).minute
     next_1 = (datetime.fromtimestamp(direction_1['attributes']['arrival_time']) - datetime.now()).minute
