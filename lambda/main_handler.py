@@ -9,6 +9,7 @@ http://amzn.to/1LGWsLG
 
 from __future__ import print_function
 import requests
+import datetime
 
 # --------------- Helpers that build all of the responses ----------------------
 
@@ -103,7 +104,20 @@ def handle_red_line_request(intent, session):
         card_title, speech_output, None, should_end_session))
 
 def origin_specified(origin):
-    return origin
+    data = requests.get("https://api-v3.mbta.com/predictions?filter[stop]=%s", origin_id)
+    direction_0 = None
+    direction_1 = None
+    for i in data['data']
+        if i['attributes']['direction_id'] == 0 and not direction_0:
+            direction_0 = i
+        else if i['attributes']['direction_id'] == 1 and not direction_1:
+            direction_1 = i
+        else if direction_0 and direction_1:
+            break
+    next_0 = (datetime.fromtimestamp(direction_0['attributes']['arrival_time']) - datetime.now()).minute
+    next_1 = (datetime.fromtimestamp(direction_1['attributes']['arrival_time']) - datetime.now()).minute
+    return "the next blah 0 train is in %d minutes and the next blah 1 train is in %d minutes" % \
+        (next_0, next_1)
 
 def origin_and_direction_specified(origin, direction):
     return origin + direction
