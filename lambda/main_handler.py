@@ -8,6 +8,7 @@ http://amzn.to/1LGWsLG
 """
 
 from __future__ import print_function
+import requests
 
 # --------------- Helpers that build all of the responses ----------------------
 
@@ -83,11 +84,33 @@ def handle_red_line_request(intent, session):
     """ Do stuff """
     session_attributes = {}
     card_title = "Your Red Line Route"
-    speech_output = "Take the Red Line train to Kendall/MIT station."
+    # speech_output = "Take the redline from" + intent[['origin'] + "to" + intent['endpoint']
+
+    #destination & origin specified
+    if intent['slots']['destination']['value']:
+        
+    #origin & direction specified
+    elif intent['slots']['direction']['value']:
+
+    #just origin specified
+    else:
+
+
+
     # Setting this to true ends the session and exits the skill.
     should_end_session = True
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, None, should_end_session))
+
+def origin_specified(origin):
+    return origin
+
+def origin_and_direction_specified(origin, direction):
+    return origin + direction
+
+def origin_and_destination_specified(origin, destination):
+    return origin + destination
+
 
 # --------------- Events ------------------
 
