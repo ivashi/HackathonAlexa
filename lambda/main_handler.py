@@ -79,14 +79,20 @@ def handle_session_end_request():
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, None, should_end_session))
 
-def handle_route_request(intent, session):
+def handle_red_line_request(intent, session):
     """ Do stuff """
+    session_attributes = {}
+    card_title = "Your Red Line Route"
+    speech_output = "Take the Red Line train to Kendall/MIT station."
+    # Setting this to true ends the session and exits the skill.
+    should_end_session = True
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, None, should_end_session))
 
 # --------------- Events ------------------
 
 def on_session_started(session_started_request, session):
     """ Called when the session starts """
-
     print("on_session_started requestId=" + session_started_request['requestId']
           + ", sessionId=" + session['sessionId'])
 
@@ -109,8 +115,8 @@ def on_intent(intent_request, session):
     intent_name = intent_request['intent']['name']
 
     # Dispatch to your skill's intent handlers
-    if intent_name == "StationToStationIntent":
-        return handle_route_request(intent, session)
+    if intent_name == "nextRedLineTrainIntent":
+        return handle_red_line_request(intent, session)
     elif intent_name == "AMAZON.HelpIntent":
         return get_welcome_response()
     elif intent_name == "AMAZON.FallbackIntent":
@@ -137,9 +143,14 @@ def lambda_handler(event, context):
     print("event.session.application.applicationId=" +
           event['session']['application']['applicationId'])
 
-    if (event['session']['application']['applicationId'] !=
-        "amzn1.ask.skill.a4a9e09b-35ae-461a-a478-4203977f9b9b"):
-        raise ValueError("Invalid Application ID")
+    """
+    Uncomment this if statement and populate with your skill's application ID to
+    prevent someone else from configuring a skill that sends requests to this
+    function.
+    """
+    #if (event['session']['application']['applicationId'] !=
+    #    "amzn1.echo-sdk-ams.app.[unique-value-here]"):
+    #    raise ValueError("Invalid Application ID")
 
     if event['session']['new']:
         on_session_started({'requestId': event['request']['requestId']},
