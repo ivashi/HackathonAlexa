@@ -88,14 +88,15 @@ def handle_red_line_request(intent, session):
 
     #destination & origin specified
     if intent['slots']['destination']['value']:
+        speech_output = origin_and_destination_specified(intent['slots']['origin']['value'], intent['slots']['destination']['value'])
         
     #origin & direction specified
     elif intent['slots']['direction']['value']:
+        speech_output = origin_and_direction_specified(intent['slots']['origin']['value'], intent['slots']['direction']['value'])
 
     #just origin specified
     else:
-
-
+        speech_output = origin_specified(intent['slots']['origin']['value'])
 
     # Setting this to true ends the session and exits the skill.
     should_end_session = True
