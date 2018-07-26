@@ -84,14 +84,13 @@ def handle_red_line_request(intent, session):
     """ Do stuff """
     session_attributes = {}
     card_title = "Your Red Line Route"
-    # speech_output = "Take the redline from" + intent[['origin'] + "to" + intent['endpoint']
 
     #destination & origin specified
-    if intent['slots']['destination']['value']:
+    if 'destination' in intent['slots']:
         speech_output = origin_and_destination_specified(intent['slots']['origin']['value'], intent['slots']['destination']['value'])
-        
+
     #origin & direction specified
-    elif intent['slots']['direction']['value']:
+    elif 'direction' in intent['slots']:
         speech_output = origin_and_direction_specified(intent['slots']['origin']['value'], intent['slots']['direction']['value'])
 
     #just origin specified
@@ -107,6 +106,7 @@ def origin_specified(origin):
     return origin
 
 def origin_and_direction_specified(origin, direction):
+    data = requests.get("https://api-v3.mbta.com/predictions?filter[stop]=%s", origin_id).json()
     return origin + direction
 
 def origin_and_destination_specified(origin, destination):
